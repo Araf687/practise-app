@@ -2,6 +2,7 @@ import React from 'react';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import PromotionCertificateForm from '../components/forms/Certificate/PromotionCertificateForm';
+import PromotionPreview from '../components/forms/Certificate/PromotionPreview';
 
 function AllCertificateForm() {
     return (
@@ -14,6 +15,7 @@ function AllCertificateForm() {
             <Tab eventKey="promotion_certificate" title="Promotion">
                 <div className='px-5'>
                     <PromotionCertificateForm/>
+               
                 </div>
             </Tab>
             <Tab eventKey="advance" title="Advance">
