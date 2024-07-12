@@ -12,6 +12,9 @@ function PromotionPreview(props: any) {
     applied_date,
     new_responsibility,
     approval_date,
+    pay_through,
+    installment_start_date,
+    approved_by
   } = props.data;
 
   console.log(props.data)
