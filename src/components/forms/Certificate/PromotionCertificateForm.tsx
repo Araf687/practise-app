@@ -195,24 +195,50 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
         <Button variant="primary" type="submit">
           Submit & download
         </Button>
-       { !editCertificate &&<Button variant="primary" type="submit" className="ms-2" onClick={()=>setEditCertificate(true)}>
-          Edit Form
-        </Button>}
-        {editCertificate && <Button variant="primary" type="submit" className="ms-2" onClick={()=>setEditCertificate(false)}>
-          Cancel Editing
-        </Button>}
+        {!editCertificate && (
+          <Button
+            variant="primary"
+            type="submit"
+            className="ms-2"
+            onClick={() => setEditCertificate(true)}
+          >
+            Edit Form
+          </Button>
+        )}
+        {editCertificate && (
+          <Button
+            variant="primary"
+            type="submit"
+            className="ms-2"
+            onClick={() => setEditCertificate(false)}
+          >
+            Cancel Editing
+          </Button>
+        )}
       </div>
 
-      {type === "promotion" && editCertificate ? (
-        <CheckEditor
-          data={
-            <PromotionPreview data={formik.values}  contentForEditor={true} />
-          }
-        />
-      ) : (
-        <PromotionPreview data={formik.values} />
-      )}
-      {type === "advance" && <AdvanceCertificate data={formik.values} />}
+      {type === "promotion" &&
+        (editCertificate ? (
+          <CheckEditor
+            data={
+              <PromotionPreview data={formik.values} contentForEditor={true} />
+            }
+          />
+        ) : (
+          <PromotionPreview data={formik.values} />
+        ))}
+
+      {type === "advance" &&
+        (editCertificate ? (
+          <CheckEditor
+            data={
+              <AdvanceCertificate data={formik.values} contentForEditor={true} />
+            }
+          />
+        ) : (
+          <AdvanceCertificate data={formik.values} />
+        ))}
+      {/* {type === "advance" && <AdvanceCertificate data={formik.values} />} */}
     </Form>
   );
 };

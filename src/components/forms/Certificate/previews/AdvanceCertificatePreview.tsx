@@ -4,7 +4,7 @@ import { numberToWords } from "../../../../utils.tsx/formatting";
 
 interface CertificateProps {
   data: {
-    ref:string,
+    ref: string;
     applied_date: string;
     name: string;
     designation: string;
@@ -14,9 +14,13 @@ interface CertificateProps {
     installment_start_date: string;
     approval_date: string; // Ensure this matches the field in your form
   };
+  contentForEditor?: boolean;
 }
 
-const AdvanceCertificate: React.FC<CertificateProps> = ({ data }) => {
+const AdvanceCertificate: React.FC<CertificateProps> = ({
+  data,
+  contentForEditor = false,
+}) => {
   const {
     name,
     designation,
@@ -28,18 +32,10 @@ const AdvanceCertificate: React.FC<CertificateProps> = ({ data }) => {
     applied_date,
   } = data;
   const currentDate = new Date();
-  return (
-    <Container
-      style={{
-        width: "210mm",
-        height: "297mm",
-        padding: "1in",
-        border: "1px solid black",
-        backgroundColor: "white",
-        textAlign: "justify",
-      }}
-      className="mt-5"
-    >
+
+  const mainContent = (
+    <>
+      {" "}
       <Row className="mb-4">
         <Col>
           <h5>Date: {currentDate.toDateString()}</h5>
@@ -147,7 +143,24 @@ const AdvanceCertificate: React.FC<CertificateProps> = ({ data }) => {
           <p>Head of H.R. Department</p>
         </Col>
       </Row>
-    </Container>
+    </>
+  );
+
+  if(contentForEditor){
+    return mainContent;
+  }
+  return (
+    <Container
+      style={{
+        width: "210mm",
+        height: "297mm",
+        padding: "1in",
+        border: "1px solid black",
+        backgroundColor: "white",
+        textAlign: "justify",
+      }}
+      className="mt-5"
+    >{mainContent}</Container>
   );
 };
 
