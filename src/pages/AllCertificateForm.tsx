@@ -3,6 +3,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import PromotionCertificateForm from "../components/forms/Certificate/PromotionCertificateForm";
 import PromotionPreview from "../components/forms/Certificate/PromotionPreview";
+import CheckEditor from "../components/forms/Certificate/CheckEditor";
 
 function AllCertificateForm() {
   return (
@@ -24,6 +25,7 @@ function AllCertificateForm() {
       </Tab>
       <Tab eventKey="salary" title="Salary">
         Tab content for Loooonger Tab
+        <CheckEditor data={<PromotionPreview data={{ user_id: "" }} contentForEditor={true} />}/>
       </Tab>
       <Tab
         eventKey="salary_for_credit_card"

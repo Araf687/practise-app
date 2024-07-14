@@ -4,6 +4,8 @@ import { numberToWords } from "../../../../utils.tsx/formatting";
 
 interface CertificateProps {
   data: {
+    ref:string,
+    applied_date: string;
     name: string;
     designation: string;
     total_advance_value: string;
@@ -23,8 +25,9 @@ const AdvanceCertificate: React.FC<CertificateProps> = ({ data }) => {
     installment,
     installment_start_date,
     approval_date,
+    applied_date,
   } = data;
-  const currentDate=new Date();
+  const currentDate = new Date();
   return (
     <Container
       style={{
@@ -52,14 +55,22 @@ const AdvanceCertificate: React.FC<CertificateProps> = ({ data }) => {
       <Row className="mb-4">
         <Col>
           <p>
-            This is to certify that Mr. <strong>{name || "{{name}}"}</strong> is working for us from
-            3rd of March to till date. He is designated as <strong>{designation||"{{designation}}"}</strong>. He
-            applied for a salary advance of Taka. <strong>{total_advance_value||"{{total advance amount}}"} (
-                {total_advance_value?numberToWords(parseInt(total_advance_value))+" Taka":" {{In words}} "})</strong> on 9th August,
-            2020. Against his application the company was satisfied to pay him
-            the amount he desires as a salary advance under some conditions.
-            Please note down the below mentioned information as the main
-            condition.
+            This is to certify that Mr. <strong>{name || "{{name}}"}</strong> is
+            working for us from 3rd of March to till date. He is designated as{" "}
+            <strong>{designation || "{{designation}}"}</strong>. He applied for
+            a salary advance of Taka.{" "}
+            <strong>
+              {total_advance_value || "{{total advance amount}}"} (
+              {total_advance_value
+                ? numberToWords(parseInt(total_advance_value)) + " Taka"
+                : " {{In words}} "}
+              )
+            </strong>{" "}
+            on{" "}
+            <strong>{applied_date ? applied_date : "{{applied date}}"}</strong>.
+            Against his application the company was satisfied to pay him the
+            amount he desires as a salary advance under some conditions. Please
+            note down the below mentioned information as the main condition.
           </p>
         </Col>
       </Row>

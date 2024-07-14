@@ -4,13 +4,17 @@ import { userData } from "../../../utils.tsx/fakedata/userData";
 import { useFormik } from "formik";
 import PromotionPreview from "./PromotionPreview";
 import AdvanceCertificate from "./previews/AdvanceCertificatePreview";
+import CheckEditor from "./CheckEditor";
 
 interface PromotionCertificateFormProps {
   type?: string;
 }
 
-const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({ type }) => {
+const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
+  type,
+}) => {
   const [initialValues] = useState({
+    ref: "",
     user_id: "",
     name: "",
     designation: "",
@@ -21,8 +25,10 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({ typ
     pay_through: "",
     installment: "",
     installment_start_date: "",
-    approved_by: ""
+    approved_by: "",
   });
+
+  const [editCertificate, setEditCertificate] = useState(false);
 
   const formik = useFormik({
     initialValues: initialValues,
@@ -53,7 +59,9 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({ typ
             <option>Choose...</option>
             {userData &&
               userData.map((item: any, index: number) => (
-                <option key={index} value={item.id}>{item.name}</option>
+                <option key={index} value={item.id}>
+                  {item.name}
+                </option>
               ))}
           </Form.Control>
         </Form.Group>
@@ -129,7 +137,9 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({ typ
               <option>Choose...</option>
               {userData &&
                 userData.map((item: any, index: number) => (
-                  <option key={index} value={item.id}>{item.name}</option>
+                  <option key={index} value={item.id}>
+                    {item.name}
+                  </option>
                 ))}
             </Form.Control>
           </Form.Group>
@@ -181,11 +191,27 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({ typ
         </Row>
       )}
 
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
+      <div className="text-center">
+        <Button variant="primary" type="submit">
+          Submit & download
+        </Button>
+       { !editCertificate &&<Button variant="primary" type="submit" className="ms-2" onClick={()=>setEditCertificate(true)}>
+          Edit Form
+        </Button>}
+        {editCertificate && <Button variant="primary" type="submit" className="ms-2" onClick={()=>setEditCertificate(false)}>
+          Cancel Editing
+        </Button>}
+      </div>
 
-      {type === "promotion" && <PromotionPreview data={formik.values} />}
+      {type === "promotion" && editCertificate ? (
+        <CheckEditor
+          data={
+            <PromotionPreview data={formik.values}  contentForEditor={true} />
+          }
+        />
+      ) : (
+        <PromotionPreview data={formik.values} />
+      )}
       {type === "advance" && <AdvanceCertificate data={formik.values} />}
     </Form>
   );
