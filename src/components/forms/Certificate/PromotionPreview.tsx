@@ -36,7 +36,7 @@ function PromotionPreview(props: any) {
         you. You are now designated as{" "}
         <strong>{designation || "{{new designation}}"}</strong>. This will be
         applicable from{" "}
-        {applied_date || <strong>{"{{designation_applicable_date}}"}</strong>}.
+        {applied_date || <strong>{"{{applicable_date}}"}</strong>}.
         Your new job responsibility is{" "}
         {new_responsibility || <strong>{"{{new_responsibility}}"}</strong>}.
         Please continue to contribute to the company's success, and we will

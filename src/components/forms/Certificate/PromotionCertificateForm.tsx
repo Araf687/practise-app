@@ -5,6 +5,7 @@ import { useFormik } from "formik";
 import PromotionPreview from "./PromotionPreview";
 import AdvanceCertificate from "./previews/AdvanceCertificatePreview";
 import CheckEditor from "./CheckEditor";
+import SalaryCertificatePreview from "./previews/SalaryCertificatePreview";
 
 interface PromotionCertificateFormProps {
   type?: string;
@@ -21,11 +22,16 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
     applied_date: "",
     new_responsibility: "",
     approval_date: "",
+    applicable_date: "",
     total_advance_value: "",
     pay_through: "",
     installment: "",
     installment_start_date: "",
     approved_by: "",
+    basic_salary: "",
+    house_rent_allowance: "",
+    medical_allowance: "",
+    convayance_allowance: "",
   });
 
   const [editCertificate, setEditCertificate] = useState(false);
@@ -44,6 +50,7 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
   };
+  console.log(type)
 
   return (
     <Form onSubmit={formik.handleSubmit}>
@@ -92,38 +99,56 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
       </Row>
 
       <Row>
-        <Form.Group as={Col} controlId="formGridDate1">
-          <Form.Label>Applied Date</Form.Label>
-          <Form.Control
-            type="date"
-            placeholder="Enter date"
-            name="applied_date"
-            onChange={handleChangeInput}
-            value={formik.values.applied_date}
-          />
-        </Form.Group>
+        {type === "advance" && (
+          <Form.Group as={Col} controlId="formGridDate1">
+            <Form.Label>Applied Date</Form.Label>
+            <Form.Control
+              type="date"
+              placeholder="Enter date"
+              name="applied_date"
+              onChange={handleChangeInput}
+              value={formik.values.applied_date}
+            />
+          </Form.Group>
+        )}
 
-        <Form.Group as={Col} controlId="formGridTextInput" className="mb-3">
-          <Form.Label>New Responsibility</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter new responsibility"
-            name="new_responsibility"
-            onChange={handleChangeInput}
-            value={formik.values.new_responsibility}
-          />
-        </Form.Group>
+        {type === "promotion" && (
+          <Form.Group as={Col} controlId="formGridTextInput" className="mb-3">
+            <Form.Label>New Responsibility</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Enter new responsibility"
+              name="new_responsibility"
+              onChange={handleChangeInput}
+              value={formik.values.new_responsibility}
+            />
+          </Form.Group>
+        )}
 
-        <Form.Group controlId="formGridDate2" as={Col} className="mb-3">
-          <Form.Label>Approval Date</Form.Label>
-          <Form.Control
-            type="date"
-            placeholder="Enter date"
-            name="approval_date"
-            onChange={handleChangeInput}
-            value={formik.values.approval_date}
-          />
-        </Form.Group>
+        {type === "promotion" && (
+          <Form.Group controlId="formGridDate2" as={Col} className="mb-3">
+            <Form.Label>Applicable From</Form.Label>
+            <Form.Control
+              type="date"
+              placeholder="Enter date"
+              name="applicable_date"
+              onChange={handleChangeInput}
+              value={formik.values.applicable_date}
+            />
+          </Form.Group>
+        )}
+        {type === "advance" && (
+          <Form.Group controlId="formGridDate2" as={Col} className="mb-3">
+            <Form.Label>Approval Date</Form.Label>
+            <Form.Control
+              type="date"
+              placeholder="Enter date"
+              name="approval_date"
+              onChange={handleChangeInput}
+              value={formik.values.approval_date}
+            />
+          </Form.Group>
+        )}
 
         {type === "advance" && (
           <Form.Group as={Col} controlId="formGridDropdown1">
@@ -191,6 +216,52 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
         </Row>
       )}
 
+      {type === "salary" && (
+        <Row className="mb-3">
+          <h5>Salary Compensation Details</h5>
+          <Form.Group as={Col} controlId="formGridTextInput" className="mb-3">
+            <Form.Label>Basic Salary</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter basic salary"
+              name="basic_salary"
+              onChange={handleChangeInput}
+              value={formik.values.basic_salary}
+            />
+          </Form.Group>
+          <Form.Group as={Col} controlId="formGridTextInput" className="mb-3">
+            <Form.Label>House Rent Allowance</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter house rent allowance"
+              name="house_rent_allowence"
+              onChange={handleChangeInput}
+              value={formik.values.house_rent_allowance}
+            />
+          </Form.Group>
+          <Form.Group as={Col} controlId="formGridTextInput" className="mb-3">
+            <Form.Label>Medical Allowance</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter medical allowance"
+              name="medical_allowance"
+              onChange={handleChangeInput}
+              value={formik.values.medical_allowance}
+            />
+          </Form.Group>
+          <Form.Group as={Col} controlId="formGridDate1">
+            <Form.Label>Convayance Allowance</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Enter convayeance allowance"
+              name="convayeance_allowance"
+              onChange={handleChangeInput}
+              value={formik.values.convayance_allowance}
+            />
+          </Form.Group>
+        </Row>
+      )}
+
       <div className="text-center">
         <Button variant="primary" type="submit">
           Submit & download
@@ -228,11 +299,29 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
           <PromotionPreview data={formik.values} />
         ))}
 
+
+      {type === "salary" &&
+        (editCertificate ? (
+          <CheckEditor
+            data={
+              <SalaryCertificatePreview
+                data={formik.values}
+                contentForEditor={true}
+              />
+            }
+          />
+        ) : (
+          <SalaryCertificatePreview data={formik.values} />
+        ))}
+
       {type === "advance" &&
         (editCertificate ? (
           <CheckEditor
             data={
-              <AdvanceCertificate data={formik.values} contentForEditor={true} />
+              <AdvanceCertificate
+                data={formik.values}
+                contentForEditor={true}
+              />
             }
           />
         ) : (

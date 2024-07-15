@@ -15,17 +15,16 @@ function AllCertificateForm() {
     >
       <Tab eventKey="promotion_certificate" title="Promotion">
         <div className="px-5">
-          <PromotionCertificateForm type={"promotion"}/>
+          <PromotionCertificateForm type={"promotion"} />
         </div>
       </Tab>
       <Tab eventKey="advance" title="Advance">
         <div className="px-5">
-          <PromotionCertificateForm type={"advance"}/>
+          <PromotionCertificateForm type={"advance"} />
         </div>
       </Tab>
-      <Tab eventKey="salary" title="Salary">
-        Tab content for Loooonger Tab
-        <CheckEditor data={<PromotionPreview data={{ user_id: "" }} contentForEditor={true} />}/>
+      <Tab eventKey="salary" title="Salary" className="px-5">
+        <PromotionCertificateForm type={"salary"} />
       </Tab>
       <Tab
         eventKey="salary_for_credit_card"
