@@ -65,9 +65,9 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
     formik.handleChange(e);
     console.log(e.target.name);
     if(e.target.name==='user_id'){
-      const selectedUser=userData.find(item=>item.id===parseInt(e.target.value));
+      const tempSelectedUser=userData.find(item=>item.id===parseInt(e.target.value));
       console.log(selectedUser)
-      setSelectedUser(selectedUser)
+      setSelectedUser(tempSelectedUser)
     }
   };
   console.log(type)
