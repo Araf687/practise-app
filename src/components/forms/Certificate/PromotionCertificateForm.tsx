@@ -11,9 +11,23 @@ interface PromotionCertificateFormProps {
   type?: string;
 }
 
+interface UserProps {
+  id: number;
+  name: string;
+  email: string;
+  designation_id: number;
+  designation_name: string;
+  salary: number;
+  joining_date: string; // Consider using Date type if you want to handle date objects
+  bank_account: string;
+  address: string;
+}
+
+
 const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
   type,
 }) => {
+  const [selectedUser,setSelectedUser]=useState<UserProps>({});
   const [initialValues] = useState({
     ref: "",
     user_id: "",
@@ -49,6 +63,12 @@ const PromotionCertificateForm: React.FC<PromotionCertificateFormProps> = ({
 
   const handleChangeInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     formik.handleChange(e);
+    console.log(e.target.name);
+    if(e.target.name==='user_id'){
+      const selectedUser=userData.find(item=>item.id===parseInt(e.target.value));
+      console.log(selectedUser)
+      setSelectedUser(selectedUser)
+    }
   };
   console.log(type)
 

@@ -3,17 +3,7 @@ import { Container, Row, Col, Table } from "react-bootstrap";
 import { numberToWords } from "../../../../utils.tsx/formatting";
 
 interface CertificateProps {
-  data: {
-    ref: string;
-    applied_date: string;
-    name: string;
-    designation: string;
-    total_advance_value: string;
-    pay_through: string;
-    installment: string;
-    installment_start_date: string;
-    approval_date: string; // Ensure this matches the field in your form
-  };
+  data: any
   contentForEditor?: boolean;
 }
 
@@ -24,12 +14,7 @@ const SalaryCertificatePreview: React.FC<CertificateProps> = ({
   const {
     name,
     designation,
-    total_advance_value,
-    pay_through,
-    installment,
-    installment_start_date,
-    approval_date,
-    applied_date,
+   
   } = data;
   const currentDate = new Date();
 
@@ -84,7 +69,7 @@ const SalaryCertificatePreview: React.FC<CertificateProps> = ({
       <Row className="mb-4">
         <Col>
           <strong>Nominated bank account no:</strong>{" "}
-          {numberToWords(parseInt(total_advance_value))}
+          {/* {numberToWords(parseInt(total_advance_value))} */}
         </Col>
       </Row>
       <Row className="mb-4">
