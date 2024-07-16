@@ -1,13 +1,15 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { numberToWords } from "../../../../utils.tsx/formatting";
+import Heading from "./Heading";
+import { User } from "./SalaryCertificatePreview";
 
 interface CertificateProps {
   data: {
     ref: string;
     applied_date: string;
     name: string;
-    designation: string;
+    new_designation: string;
     total_advance_value: string;
     pay_through: string;
     installment: string;
@@ -15,15 +17,17 @@ interface CertificateProps {
     approval_date: string; // Ensure this matches the field in your form
   };
   contentForEditor?: boolean;
+  user?:User
 }
 
 const AdvanceCertificate: React.FC<CertificateProps> = ({
   data,
   contentForEditor = false,
+  user
 }) => {
   const {
+    ref,
     name,
-    designation,
     total_advance_value,
     pay_through,
     installment,
@@ -38,22 +42,15 @@ const AdvanceCertificate: React.FC<CertificateProps> = ({
       {" "}
       <Row className="mb-4">
         <Col>
-          <h5>Date: {currentDate.toDateString()}</h5>
-        </Col>
-      </Row>
-      <Row className="mb-5">
-        <Col className="text-center">
-          <u>
-            <h4>TO WHOMSOEVER IT MAY CONCERN</h4>
-          </u>
+          <Heading reference={ref} />
         </Col>
       </Row>
       <Row className="mb-4">
         <Col>
           <p>
-            This is to certify that Mr. <strong>{name || "{{name}}"}</strong> is
+            This is to certify that Mr. <strong>{user?.name || "{{name}}"}</strong> is
             working for us from 3rd of March to till date. He is designated as{" "}
-            <strong>{designation || "{{designation}}"}</strong>. He applied for
+            <strong>{user?.designation_name || "{{designation}}"}</strong>. He applied for
             a salary advance of Taka.{" "}
             <strong>
               {total_advance_value || "{{total advance amount}}"} (
@@ -84,7 +81,7 @@ const AdvanceCertificate: React.FC<CertificateProps> = ({
       </Row>
       <Row className="mb-2">
         <Col>
-          <strong>Designation:</strong> {designation}
+          <strong>Designation:</strong> {user?.designation_name}
         </Col>
       </Row>
       <Row className="mb-2">
@@ -146,21 +143,25 @@ const AdvanceCertificate: React.FC<CertificateProps> = ({
     </>
   );
 
-  if(contentForEditor){
+  if (contentForEditor) {
     return mainContent;
   }
   return (
     <Container
+      className="container border bg-white"
       style={{
-        width: "210mm",
-        height: "297mm",
+        width: "8.5in",
+        // height: "11in",
+        margin: "20px auto",
         padding: "1in",
-        border: "1px solid black",
-        backgroundColor: "white",
-        textAlign: "justify",
+        boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
+        fontFamily: "Arial, sans-serif",
+        fontSize:"14px",
+        textAlign:"justify"
       }}
-      className="mt-5"
-    >{mainContent}</Container>
+    >
+      {mainContent}
+    </Container>
   );
 };
 

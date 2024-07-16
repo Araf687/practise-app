@@ -2,25 +2,42 @@ import React from "react";
 import { Container, Row, Col, Table } from "react-bootstrap";
 import { numberToWords } from "../../../../utils.tsx/formatting";
 
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  designation_id: number;
+  designation_name: string;
+  salary: number;
+  joining_date: string;
+  bank_account: string;
+  address: string;
+  bank_name:string;
+}
+
 interface CertificateProps {
-  data: any
+  data: any;
   contentForEditor?: boolean;
+  user?:User
 }
 
 const SalaryCertificatePreview: React.FC<CertificateProps> = ({
   data,
   contentForEditor = false,
+  user
 }) => {
   const {
     name,
     designation,
-   
+    basic_salary,
+    house_rent_allowance,
+    medical_allowance,
+    convayance_allowance,
   } = data;
   const currentDate = new Date();
 
   const mainContent = (
     <>
-      {" "}
       <Row className="mb-4">
         <Col>
           <h6>Date: {currentDate.toDateString()}</h6>
@@ -36,11 +53,18 @@ const SalaryCertificatePreview: React.FC<CertificateProps> = ({
       <Row className="mb-4">
         <Col>
           <p>
-            This is to certify that Mr. <strong>{name || "{{name}}"}</strong> is
-            working for us from {"{{joining_date}}"} to till date. He is
-            designated as <strong>{designation || "{{designation}}"}</strong>.
-            His curent compensation is Taka <strong>{"{{salary}}"}( {"{{salary in words}}"} )</strong>.
-            Detailed structure is given bellow-
+            This is to certify that Mr. <strong>{user?.name || "{{name}}"}</strong> is
+            working for us from <strong>{user?.joining_date || "{{joining_date}}"}</strong> to till date. He is
+            designated as <strong>{user?.designation_name || "{{designation}}"}</strong>.
+            His curent compensation is Taka{" "}
+            <strong>
+              {(user?.salary)?.toLocaleString() || "{{salary}}"} ({" "}
+              {user?.name 
+                ? numberToWords(user?.salary )
+                : "{{salary in words}}"}{" "}
+              )
+            </strong>
+            . Detailed structure is given bellow-
           </p>
         </Col>
       </Row>
@@ -53,28 +77,37 @@ const SalaryCertificatePreview: React.FC<CertificateProps> = ({
       </Row>
       <Row className="mb-2">
         <Col>
-          <strong>Employee Name:</strong> {name}
+          <strong>Employee Name:</strong>
+        </Col>
+        <Col>: {user?.name}</Col>
+      </Row>
+      <Row className="mb-2">
+        <Col>
+          <strong>Compansation paid via bank & cash</strong>{" "}
+        </Col>
+        <Col>
+          :{" "}
+          {(user?.salary)?.toLocaleString()|| 0}{" "}
+          taka
         </Col>
       </Row>
       <Row className="mb-2">
         <Col>
-          <strong>Compansation paid via bank & cash:</strong> {designation}
+          <strong>Nominated bank</strong>
         </Col>
-      </Row>
-      <Row className="mb-2">
-        <Col>
-          <strong>Nominated bank:</strong> 
-        </Col>
+        <Col>: {user?.bank_name}</Col>
       </Row>
       <Row className="mb-4">
         <Col>
-          <strong>Nominated bank account no:</strong>{" "}
-          {/* {numberToWords(parseInt(total_advance_value))} */}
+          <strong>Nominated bank account no</strong>{" "}
         </Col>
+        <Col>: {user?.bank_account}</Col>
       </Row>
       <Row className="mb-4">
         <Col>
-        <h5 className="mb-3"><u>Breaking of his compensation</u></h5>
+          <h5 className="mb-3">
+            <u>Breaking of his compensation</u>
+          </h5>
           <Table bordered>
             <thead>
               <tr>
@@ -86,23 +119,45 @@ const SalaryCertificatePreview: React.FC<CertificateProps> = ({
             <tbody>
               <tr>
                 <td>Basic Salary</td>
-                <td>22,625</td>
-                <td> 22,625</td>
+                <td>{basic_salary.toLocaleString() || 0}</td>
+                <td> {(basic_salary * 12).toLocaleString()}</td>
               </tr>
               <tr>
                 <td>House Rent Allowance</td>
-                <td>11,313</td>
-                <td>4,525</td>
+                <td>{house_rent_allowance.toLocaleString() || 0}</td>
+                <td>{(house_rent_allowance * 12).toLocaleString()}</td>
               </tr>
               <tr>
                 <td>Medical Allowance</td>
-                <td>11,313</td>
-                <td>4,525</td>
+                <td>{medical_allowance.toLocaleString() || 0}</td>
+                <td>{(medical_allowance * 12).toLocaleString()}</td>
               </tr>
               <tr>
-                <td><strong>Total</strong></td>
-                <td>11,313</td>
-                <td>4,525</td>
+                <td>Convayance Allowance</td>
+                <td>{convayance_allowance.toLocaleString() || 0}</td>
+                <td>{(convayance_allowance * 12).toLocaleString()}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Total</strong>
+                </td>
+                <td>
+                  {(
+                    basic_salary +
+                    house_rent_allowance +
+                    medical_allowance +
+                    convayance_allowance
+                  ).toLocaleString()}
+                </td>
+                <td>
+                  {(
+                    (basic_salary +
+                      house_rent_allowance +
+                      medical_allowance +
+                      convayance_allowance) *
+                    12
+                  ).toLocaleString()}
+                </td>
               </tr>
             </tbody>
           </Table>
@@ -137,15 +192,15 @@ const SalaryCertificatePreview: React.FC<CertificateProps> = ({
   }
   return (
     <Container
-      style={{
-        width: "210mm",
-        height: "297mm",
-        padding: "1in",
-        border: "1px solid black",
-        backgroundColor: "white",
-        textAlign: "justify",
-      }}
-      className="mt-5"
+    className="container border bg-white"
+    style={{
+      width: "8.5in",
+      height: "11in",
+      margin: "20px auto",
+      padding: "1in",
+      boxShadow: "0 0 5px rgba(0, 0, 0, 0.1)",
+      fontFamily: "Arial, sans-serif",
+    }}
     >
       {mainContent}
     </Container>
